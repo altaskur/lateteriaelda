@@ -1,0 +1,27 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import MenuSection from "../components/MenuSection.astro";
+import { getAllMenuSlugs, getMenuCategory } from "../data/menu";
+
+export function getStaticPaths() {
+  const slugs = getAllMenuSlugs();
+  return slugs.map((slug) => ({
+    params: { slug },
+  }));
+}
+
+const { slug } = Astro.params;
+const category = getMenuCategory(slug!);
+
+if (!category) {
+  return Astro.redirect("/404");
+}
+---
+
+<BaseLayout
+  title={category.metaTitle}
+  description={category.metaDescription}
+  keywords={category.keywords}
+>
+  <MenuSection title={category.title} description={category.description} />
+</BaseLayout>

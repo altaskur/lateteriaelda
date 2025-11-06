@@ -2,6 +2,45 @@
 import BaseLayout from "../layouts/BaseLayout.astro";
 ---
 
-<BaseLayout title="La Tetería Elda">
-  <h1>La Tetería Elda</h1>
+<BaseLayout
+  title="La Tetería Elda - Tés, Cafés, Shishas y Desayunos en Elda"
+  description="Bienvenido a La Tetería Elda. Disfruta de nuestros tés, cafés, bebidas, shishas, desayunos y meriendas. El mejor ambiente de Elda para relajarte y disfrutar."
+  keywords="tetería elda, té elda, café elda, shisha elda, desayunos elda, meriendas elda, cafetería elda"
+>
+  <section class="hero">
+    <h1>Bienvenido a La Tetería Elda</h1>
+    <p>Tu lugar perfecto para disfrutar</p>
+  </section>
 </BaseLayout>
+
+<style>
+  .hero {
+    padding: 4rem 1rem;
+    text-align: center;
+    min-height: calc(100vh - 200px);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
+
+  h1 {
+    font-size: 3rem;
+    margin-bottom: 1rem;
+  }
+
+  p {
+    font-size: 1.5rem;
+    opacity: 0.9;
+  }
+
+  @media (max-width: 768px) {
+    h1 {
+      font-size: 2rem;
+    }
+
+    p {
+      font-size: 1.2rem;
+    }
+  }
+</style>

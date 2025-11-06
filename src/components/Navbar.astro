@@ -1,0 +1,242 @@
+---
+const menuItems = [
+  { name: "Té", href: "/te" },
+  { name: "Café", href: "/cafe" },
+  { name: "Bebidas", href: "/bebidas" },
+  { name: "Shishas", href: "/shishas" },
+  { name: "Desayunos", href: "/desayunos" },
+  { name: "Meriendas", href: "/meriendas" },
+];
+---
+
+<nav class="navbar" aria-label="Navegación principal" transition:persist>
+  <div class="navbar-container">
+    <div class="navbar-logo">
+      <figure>
+        <img
+          src="/assets/images/lateterialogo.png"
+          alt="Logotipo de La Tetería Elda"
+          transition:persist
+        />
+      </figure>
+    </div>
+    <button
+      class="navbar-toggle"
+      id="navbarToggle"
+      aria-label="Abrir menú de navegación"
+      aria-expanded="false"
+      aria-controls="navbarMenu"
+    >
+      <span></span>
+      <span></span>
+      <span></span>
+    </button>
+  </div>
+  <ul class="navbar-menu" id="navbarMenu" role="list">
+    {
+      menuItems.map((item) => (
+        <li class="navbar-item">
+          <a href={item.href} class="navbar-link">
+            {item.name}
+          </a>
+        </li>
+      ))
+    }
+  </ul>
+</nav>
+
+<style>
+  .navbar {
+    background-color: var(--bg-primary);
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+  }
+
+  .navbar-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem;
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+
+  .navbar-logo {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    font-family: var(--font-display);
+    color: var(--text-primary);
+    font-size: 1.5rem;
+  }
+
+  .navbar-logo figure {
+    margin: 0;
+    display: flex;
+    align-items: center;
+  }
+
+  .navbar-logo img {
+    height: 40px;
+    width: auto;
+  }
+
+  .navbar-toggle {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 0.5rem;
+    z-index: 1001;
+  }
+
+  .navbar-toggle span {
+    display: block;
+    width: 25px;
+    height: 3px;
+    background-color: var(--text-primary);
+    transition: all 0.3s ease;
+    border-radius: 2px;
+  }
+
+  .navbar-toggle.active span:nth-child(1) {
+    transform: rotate(45deg) translate(7px, 7px);
+  }
+
+  .navbar-toggle.active span:nth-child(2) {
+    opacity: 0;
+  }
+
+  .navbar-toggle.active span:nth-child(3) {
+    transform: rotate(-45deg) translate(7px, -7px);
+  }
+
+  .navbar-menu {
+    display: none;
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    background-color: var(--bg-primary);
+  }
+
+  .navbar-menu.active {
+    display: block;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+  }
+
+  .navbar-item {
+  }
+
+  .navbar-link {
+    display: block;
+    padding: 1rem 1.5rem;
+    color: var(--text-primary);
+    font-family: var(--font-body);
+    font-size: 1.1rem;
+    font-weight: 500;
+    text-decoration: none;
+    transition: all 0.3s ease;
+  }
+
+  .navbar-link:hover {
+    background-color: rgba(41, 44, 97, 0.05);
+    padding-left: 2rem;
+  }
+
+  /* Tablet y desktop */
+  @media (min-width: 768px) {
+    .navbar-container {
+      flex-direction: column;
+      gap: 1rem;
+    }
+
+    .navbar-logo {
+      justify-content: center;
+    }
+
+    .navbar-toggle {
+      display: none;
+    }
+
+    .navbar-menu {
+      display: flex;
+      position: static;
+      justify-content: center;
+      gap: 0;
+    }
+
+    .navbar-item {
+    }
+
+    .navbar-link {
+      padding: 1rem 1.5rem;
+    }
+
+    .navbar-link:hover {
+      background-color: rgba(41, 44, 97, 0.05);
+      padding-left: 1.5rem;
+    }
+  }
+</style>
+
+<script>
+  function initNavbar() {
+    const navbarToggle = document.getElementById("navbarToggle");
+    const navbarMenu = document.getElementById("navbarMenu");
+
+    if (!navbarToggle || !navbarMenu) return;
+
+    const existingListener = navbarToggle.getAttribute("data-listener");
+    if (existingListener === "true") return;
+
+    navbarToggle.setAttribute("data-listener", "true");
+
+    navbarToggle.addEventListener("click", (e) => {
+      e.preventDefault();
+      const isExpanded = navbarToggle.classList.contains("active");
+
+      if (isExpanded) {
+        navbarToggle.classList.remove("active");
+        navbarMenu.classList.remove("active");
+        navbarToggle.setAttribute("aria-expanded", "false");
+        navbarToggle.setAttribute("aria-label", "Abrir menú de navegación");
+      } else {
+        navbarToggle.classList.add("active");
+        navbarMenu.classList.add("active");
+        navbarToggle.setAttribute("aria-expanded", "true");
+        navbarToggle.setAttribute("aria-label", "Cerrar menú de navegación");
+      }
+    });
+
+    const navbarLinks = document.querySelectorAll(".navbar-link");
+    navbarLinks.forEach((link) => {
+      link.addEventListener("click", () => {
+        navbarToggle.classList.remove("active");
+        navbarMenu.classList.remove("active");
+        navbarToggle.setAttribute("aria-expanded", "false");
+        navbarToggle.setAttribute("aria-label", "Abrir menú de navegación");
+      });
+    });
+
+    let lastScroll = 0;
+    window.addEventListener("scroll", () => {
+      const currentScroll = window.pageYOffset;
+      if (currentScroll > lastScroll && currentScroll > 100) {
+        navbarToggle.classList.remove("active");
+        navbarMenu.classList.remove("active");
+        navbarToggle.setAttribute("aria-expanded", "false");
+        navbarToggle.setAttribute("aria-label", "Abrir menú de navegación");
+      }
+      lastScroll = currentScroll;
+    });
+  }
+
+  document.addEventListener("astro:page-load", initNavbar);
+  initNavbar();
+</script>
