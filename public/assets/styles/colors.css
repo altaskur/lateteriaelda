@@ -1,0 +1,16 @@
+/* Paleta de colores de La Tetería Elda */
+:root {
+  /* Colores principales */
+  --color-primary: #292C61;
+  --color-beige: #FBF8F1;
+  --color-gray-almost-black: #2a2a2a;
+  
+  /* Colores de fondo */
+  --bg-primary: var(--color-beige);
+  
+  /* Colores de texto */
+  --text-primary: var(--color-primary);
+  
+  /* Decoración */
+  --underline-dots: var(--color-gray-almost-black);
+}
